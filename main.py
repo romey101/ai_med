@@ -149,3 +149,43 @@ async def disease_comparison():
         title="COVID Cases & Vaccinations vs 3 Diseases"
     )
     return HTMLResponse(fig.to_html(include_plotlyjs='cdn'))
+
+
+@app.get("/vaccine_line_chart", response_class=HTMLResponse)
+async def vaccine_line_chart():
+    df = pd.read_csv("app/data/covid_saudi.csv")
+    df.columns = df.columns.str.lower().str.strip()
+    df = df.sort_values('date')
+
+    df['date'] = pd.to_datetime(df['date'], errors='coerce')
+    df['total_cases'] = pd.to_numeric(df['total_cases'], errors='coerce')
+    df['total_deaths'] = pd.to_numeric(df['total_deaths'], errors='coerce')
+    df['total_vaccinations'] = pd.to_numeric(df['total_vaccinations'], errors='coerce')
+
+    df['new_cases'] = df['total_cases'].diff().fillna(0)
+    df['new_deaths'] = df['total_deaths'].diff().fillna(0)
+
+    first_vax_date = df[df['total_vaccinations'] > 0]['date'].min()
+
+    df['period'] = df['date'].apply(lambda d: 'Before Vaccine' if d < first_vax_date else 'After Vaccine')
+
+    import plotly.graph_objects as go
+    from plotly.subplots import make_subplots
+
+    fig = make_subplots(rows=1, cols=2, subplot_titles=("New COVID-19 Cases", "New COVID-19 Deaths"))
+
+    for period, color in zip(['Before Vaccine', 'After Vaccine'], ['orange', 'green']):
+        data = df[df['period'] == period]
+        fig.add_trace(go.Scatter(x=data['date'], y=data['new_cases'], name=f"{period} - Cases", line=dict(color=color)), row=1, col=1)
+        fig.add_trace(go.Scatter(x=data['date'], y=data['new_deaths'], name=f"{period} - Deaths", line=dict(color=color)), row=1, col=2)
+
+    fig.add_vline(x=first_vax_date, line=dict(color='gray', dash='dash'), row=1, col=1)
+    fig.add_vline(x=first_vax_date, line=dict(color='gray', dash='dash'), row=1, col=2)
+
+    fig.update_layout(
+        title_text="COVID-19 Daily Cases & Deaths Before vs After Vaccine",
+        showlegend=True,
+        height=500
+    )
+
+    return HTMLResponse(fig.to_html(include_plotlyjs='cdn'))
