@@ -98,6 +98,7 @@ async def root():
                 <option value="/positive_rate_chart">Positive Rate per Year</option>
                 <option value="/quarterly_chart">Quarterly COVID Insights</option>
                 <option value="/disease_comparison">COVID vs Disease Comparison</option>
+                <option value="/vaccine_line_chart">Daily New Cases & Deaths (Before vs After Vaccine)</option>
             </select>
         </div>
     </body>
