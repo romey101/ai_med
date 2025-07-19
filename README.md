@@ -11,12 +11,6 @@ An interactive data visualization dashboard built with **FastAPI** and **Plotly*
 - 🔁 **Quarterly analysis** of COVID metrics  
 - 🔄 **Dynamic metric switching** planned (totals vs. percent change)  
 - 🧬 **Disease comparison** with COVID data on the same plot  
-- 🎨 **Enhanced visualizations coming soon**:
-  - Animated bar race charts  
-  - Bubble plots  
-  - Stacked area charts  
-  - Heatmaps  
-  - Pie and radial plots  
 
 ---
 
