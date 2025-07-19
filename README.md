@@ -12,22 +12,13 @@ An interactive data visualization dashboard built with **FastAPI** and **Plotly*
 ## 📁 Project Structure
 
 
-app/
-│
-├── data/
-│ └── gathered_insights.csv # Source CSV file (raw and % change data)
-│ └── output_dataset.csv # Cleaned + processed CSV (used in app)
-│
-├── routes/
-│ └── plots.py # Extra charts (multi-line % change, etc.)
-│
-├── templates/
-│ ├── dashboard.html # Main dashboard with dropdowns
-│ └── plot.html # Chart-only template
-│
-├── static/ # (Optional) Static assets (CSS/images if added)
-│
-main.py # App entrypoint with root route
+ai_medical/
+├── main.py
+├── app/
+│   └── data/
+│       ├── covid_saudi.csv
+│       └── diseases_in_years.csv
+
 
 
 ## 🧪 Sample Dataset Columns
